@@ -33,7 +33,7 @@ public class FacultyController {
             summary = "Finding faculty by id",
             description = "User need to enter student id to find faculty name"
     )
-    @GetMapping("/{id}/faculty")
+    @GetMapping("/{id}")
     public ResponseEntity findFaculty(@PathVariable long id) {
         Optional<Faculty> faculty = facultyService.findFaculty(id);
         return ResponseEntity.ok(faculty);
@@ -70,12 +70,12 @@ public class FacultyController {
         return facultyService.getFacultiesByNameOrColor(name, color);
     }
 
-    @Operation(
-            summary = "Getting student names",
-            description = "The student names list will be shown"
-    )
-    @GetMapping("/{faculty_id}")
-    public Collection<String> getStudentsByFacultyId(@PathVariable long faculty_id) {
-        return facultyService.getStudentsByFacultyId(faculty_id);
-    }
+//    @Operation(
+//            summary = "Getting student names",
+//            description = "The student names list will be shown"
+//    )
+//    @GetMapping("/{faculty_id}")
+//    public Collection<String> getStudentsByFacultyId(@PathVariable long faculty_id) {
+//        return facultyService.getStudentsByFacultyId(faculty_id);
+//    }
 }
