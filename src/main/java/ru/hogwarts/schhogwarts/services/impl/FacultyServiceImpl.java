@@ -1,8 +1,10 @@
 package ru.hogwarts.schhogwarts.services.impl;
 
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.schhogwarts.models.Faculty;
+import ru.hogwarts.schhogwarts.models.Student;
 import ru.hogwarts.schhogwarts.repositories.FacultyRepository;
 import ru.hogwarts.schhogwarts.services.FacultyService;
 
@@ -30,7 +32,6 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty updateFaculty(Faculty faculty) {
-
         return facultyRepository.save(faculty);
     }
 
@@ -45,8 +46,8 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Collection<Faculty> getFacultiesByNameOrColor(String name, String color) {
-        return facultyRepository.findFacultiesByColorAndNameIgnoreCase(name, color);
+    public Optional<Faculty> getFacultyByNameOrColor(String name, String color) {
+        return facultyRepository.findFacultyByNameAndColor(name, color);
     }
 
     @Override

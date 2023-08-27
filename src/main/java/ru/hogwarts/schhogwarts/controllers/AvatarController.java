@@ -1,5 +1,6 @@
 package ru.hogwarts.schhogwarts.controllers;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @RestController
 public class AvatarController {
@@ -48,5 +52,10 @@ public class AvatarController {
             httpServletResponse.setContentLength(Math.toIntExact(avatar.getFileSize()));
             is.transferTo(os);
         }
+    }
+    @GetMapping("/avatar/page")
+    public ResponseEntity<List<Avatar>> getAvatarsOnPage(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer sizeNumber){
+        List<Avatar> avatarList = avatarService.getAvatarsOnPage(pageNumber,sizeNumber);
+        return ResponseEntity.ok(avatarList);
     }
 }

@@ -65,10 +65,12 @@ public class FacultyController {
     public Collection<Faculty> getFacultiesList() {
         return facultyService.facultiesList();
     }
-    @GetMapping
-    public Collection<Faculty> getFacultiesByNameOrColor(String name, String color) {
-        return facultyService.getFacultiesByNameOrColor(name, color);
+    @GetMapping("/find")
+    public Optional<Faculty> getFacultiesByNameOrColor(String name, String color) {
+        return facultyService.getFacultyByNameOrColor(name, color);
     }
+
+
 
 //    @Operation(
 //            summary = "Getting student names",

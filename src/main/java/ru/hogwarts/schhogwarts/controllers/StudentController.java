@@ -1,6 +1,7 @@
 package ru.hogwarts.schhogwarts.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.schhogwarts.models.Student;
@@ -74,4 +75,16 @@ public class StudentController {
         return studentService.getFacultyByStudentId(id);
     }
 
+    @GetMapping("/count")
+    public Integer getCountOfStudents(){
+        return studentService.getCountOfStudents();
+    }
+    @GetMapping("/avg-age")
+    public Integer getAVGStudentAge(){
+        return studentService.getAVGStudentAge();
+    }
+    @GetMapping("/five")
+    public Collection<Student> getStudentsLimitFiveDESC()  {
+        return studentService.getStudentsLimitFiveDESC();
+    }
 }

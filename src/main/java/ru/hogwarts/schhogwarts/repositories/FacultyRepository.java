@@ -6,10 +6,17 @@ import org.springframework.data.repository.query.Param;
 import ru.hogwarts.schhogwarts.models.Faculty;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
-    Collection<Faculty> findFacultiesByColorAndNameIgnoreCase(String name, String faculty);
 
+    Optional<Faculty> findFacultyByNameAndColor(String name, String color);
     @Query(value = "SELECT s.name FROM student s INNER JOIN faculty f ON s.faculty_id=f.id WHERE f.id=?1", nativeQuery = true)
     Collection<String> getStudentsByFacultyId(@Param("faculty_id") long faculty_id);
+
+    @Override
+    Optional<Faculty> findById(Long id);
+
+    Optional<Faculty> deleteById(long id);
+
 }
