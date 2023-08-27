@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import ru.hogwarts.schhogwarts.models.Student;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Collection<Student> findByAgeBetween(int min, int max);
