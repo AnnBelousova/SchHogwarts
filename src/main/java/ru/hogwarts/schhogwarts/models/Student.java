@@ -8,7 +8,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue()
     private long id;
     private String name;
     private Integer age;
@@ -58,6 +58,12 @@ public class Student {
     }
 
     public Student(String name, Integer age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Student(long id, String name, Integer age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }

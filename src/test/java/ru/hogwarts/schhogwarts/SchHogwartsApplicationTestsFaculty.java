@@ -3,9 +3,16 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.schhogwarts.controllers.FacultyController;
@@ -15,6 +22,7 @@ import ru.hogwarts.schhogwarts.services.impl.FacultyServiceImpl;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -114,74 +122,67 @@ class FacultyControllerMockMVCTests {
   }
 }
 
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//class FacultyControllerRestTemplatesTests {
-//  @LocalServerPort
-//  private int port;
-//  @Autowired
-//  private FacultyController facultyController;
-//  @Autowired
-//  private TestRestTemplate testRestTemplate;
-//  @Test
-//  void contextLoads(){
-//
-//  }
-//  @Test
-//  public void testGetFacultyByID(){
-//    ResponseEntity<Faculty> newFacultyEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", new Faculty("one", "blue"), Faculty.class);
-//    assertThat(newFacultyEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//
-//    ResponseEntity<Faculty> facultyResponseEntity =
-//            testRestTemplate.getForEntity("http://localhost:" + port +"/faculty/"+ newFacultyEntity.getBody().getId(), Faculty.class);
-//
-//    assertThat(facultyResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//    assertThat(facultyResponseEntity.getBody()).isNotNull();
-//    assertThat(facultyResponseEntity.getBody().getName()).isEqualTo("one");
-//    assertThat(facultyResponseEntity.getBody().getColor()).isEqualTo("blue");
-//  }
-//  @Test
-//  public void testFindById() throws Exception{
-//    ResponseEntity<Faculty> newFacultyEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", new Faculty(1,"one", "blue"), Faculty.class);
-//    assertThat(newFacultyEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//
-//    ResponseEntity<Faculty> facultyResponseEntity = testRestTemplate.getForEntity("http://localhost:" + port +"/faculty/1", Faculty.class);
-//    assertThat(facultyResponseEntity.getBody().getName()).isEqualTo("one");
-//  }
-//
-//  @Test
-//  public void testDeleteById() throws Exception{
-//    Faculty newFacultyEntity = testRestTemplate.postForObject("http://localhost:" + port + "/faculty", new Faculty(1,"one", "blue"), Faculty.class);
-//    testRestTemplate.delete("http://localhost:" + port + "/faculty/1");
-//    assertThat(newFacultyEntity.equals(null));
-//  }
-//  @Test
-//  public void testCreateFaculty() throws Exception{
-//    ResponseEntity<Faculty> newFacultyEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", new Faculty("one", "blue"), Faculty.class);
-//    assertThat(newFacultyEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//
-//    ResponseEntity<Faculty> facultyResponseEntity =
-//            testRestTemplate.getForEntity("http://localhost:" + port +"/faculty/"+ newFacultyEntity.getBody().getId(), Faculty.class);
-//    assertThat(facultyResponseEntity.equals(newFacultyEntity));
-//  }
-//  @Test
-//  public void testGetFaculties() throws Exception{
-////    Faculty newFacultyEntity1 = testRestTemplate.postForObject("http://localhost:" + port + "/faculty", new Faculty(1,"one", "blue"), Faculty.class);
-////    Faculty newFacultyEntity2 = testRestTemplate.postForObject("http://localhost:" + port + "/faculty", new Faculty(2,"two", "red"), Faculty.class);
-////    List<Faculty> list = new ArrayList<>();
-////    list.add(newFacultyEntity1);
-////    list.add(newFacultyEntity2);
-////    assertThat(list.size() == 2);
-////
-//    String url = "http://localhost:" + port + "/faculty/all";
-//    ParameterizedTypeReference<List<Faculty>> paramType = new ParameterizedTypeReference<List<Faculty>>() {
-//    };
-//    ResponseEntity<List<Faculty>> faculties = testRestTemplate.exchange(url, HttpMethod.GET, null, paramType);
-//    Faculty facultyOne = new Faculty(1L, "one", "red");
-//
-//    Faculty facultyTwo = new Faculty(2L, "two", "blue");
-//
-//    assertThat(faculties.getBody()).isNotNull();
-//    assertThat(faculties.getBody().contains(facultyTwo));
-//    assertThat(faculties.getBody().contains(facultyOne));
-//  }
-//}
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class FacultyControllerRestTemplatesTests {
+  @LocalServerPort
+  private int port;
+  @Autowired
+  private FacultyController facultyController;
+  @Autowired
+  private TestRestTemplate testRestTemplate;
+  @Test
+  void contextLoads(){
+
+  }
+  @Test
+  public void testGetFacultyByID(){
+    ResponseEntity<Faculty> newFacultyEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", new Faculty("one", "blue"), Faculty.class);
+    assertThat(newFacultyEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+    ResponseEntity<Faculty> facultyResponseEntity =
+            testRestTemplate.getForEntity("http://localhost:" + port +"/faculty/"+ newFacultyEntity.getBody().getId(), Faculty.class);
+
+    assertThat(facultyResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(facultyResponseEntity.getBody()).isNotNull();
+    assertThat(facultyResponseEntity.getBody().getName()).isEqualTo("one");
+    assertThat(facultyResponseEntity.getBody().getColor()).isEqualTo("blue");
+  }
+  @Test
+  public void testFindById() throws Exception{
+    ResponseEntity<Faculty> newFacultyEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", new Faculty(1,"one", "blue"), Faculty.class);
+    assertThat(newFacultyEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+    ResponseEntity<Faculty> facultyResponseEntity = testRestTemplate.getForEntity("http://localhost:" + port +"/faculty/1", Faculty.class);
+    assertThat(facultyResponseEntity.getBody().getName()).isEqualTo("one");
+  }
+
+  @Test
+  public void testDeleteById() throws Exception{
+    Faculty newFacultyEntity = testRestTemplate.postForObject("http://localhost:" + port + "/faculty", new Faculty(1,"one", "blue"), Faculty.class);
+    testRestTemplate.delete("http://localhost:" + port + "/faculty/1");
+    assertThat(newFacultyEntity.equals(null));
+  }
+  @Test
+  public void testCreateFaculty() throws Exception{
+    ResponseEntity<Faculty> newFacultyEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", new Faculty("one", "blue"), Faculty.class);
+    assertThat(newFacultyEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+    ResponseEntity<Faculty> facultyResponseEntity =
+            testRestTemplate.getForEntity("http://localhost:" + port +"/faculty/"+ newFacultyEntity.getBody().getId(), Faculty.class);
+    assertThat(facultyResponseEntity.equals(newFacultyEntity));
+  }
+  @Test
+  public void testGetFaculties() throws Exception{
+    String url = "http://localhost:" + port + "/faculty/all";
+    ParameterizedTypeReference<List<Faculty>> paramType = new ParameterizedTypeReference<List<Faculty>>() {
+    };
+    ResponseEntity<List<Faculty>> faculties = testRestTemplate.exchange(url, HttpMethod.GET, null, paramType);
+    Faculty facultyOne = new Faculty(1L, "one", "red");
+
+    Faculty facultyTwo = new Faculty(2L, "two", "blue");
+
+    assertThat(faculties.getBody()).isNotNull();
+    assertThat(faculties.getBody().contains(facultyTwo));
+    assertThat(faculties.getBody().contains(facultyOne));
+  }
+}
