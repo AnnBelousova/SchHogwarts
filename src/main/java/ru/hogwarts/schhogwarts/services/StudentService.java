@@ -19,4 +19,9 @@ public interface StudentService {
     Collection<Student> getStudentsWithAgeBetween(int min, int max);
 
     String getFacultyByStudentId(long id);
+    public Integer getCountOfStudents();
+
+    Integer getAVGStudentAge();
+
+    Collection<Student>  getStudentsLimitFiveDESC();
 }
