@@ -57,7 +57,8 @@ public class Student {
         return id;
     }
 
-    public Student(String name, Integer age) {
+    public Student(long id, String name, Integer age) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }

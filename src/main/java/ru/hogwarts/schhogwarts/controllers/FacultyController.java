@@ -66,16 +66,16 @@ public class FacultyController {
         return facultyService.facultiesList();
     }
     @GetMapping
-    public Collection<Faculty> getFacultiesByNameOrColor(String name, String color) {
+    public Optional<Faculty> getFacultiesByNameOrColor(String name, String color) {
         return facultyService.getFacultiesByNameOrColor(name, color);
     }
 
-//    @Operation(
-//            summary = "Getting student names",
-//            description = "The student names list will be shown"
-//    )
-//    @GetMapping("/{faculty_id}")
-//    public Collection<String> getStudentsByFacultyId(@PathVariable long faculty_id) {
-//        return facultyService.getStudentsByFacultyId(faculty_id);
-//    }
+    @Operation(
+            summary = "Getting student names",
+            description = "The student names list will be shown"
+    )
+    @GetMapping("/{faculty_id}")
+    public Collection<String> getStudentsByFacultyId(@PathVariable long faculty_id) {
+        return facultyService.getStudentsByFacultyId(faculty_id);
+    }
 }

@@ -16,7 +16,7 @@ public interface FacultyService {
 
     Collection<Faculty> facultiesList();
 
-    Collection<Faculty> getFacultiesByNameOrColor(String name, String color);
+    Optional<Faculty> getFacultiesByNameOrColor(String name, String color);
 
     Collection<String> getStudentsByFacultyId(long faculty_id);
 }

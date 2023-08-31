@@ -60,10 +60,10 @@ public class StudentController {
             summary = "Getting students with age between two parameters",
             description = "The student list will be shown"
     )
-//    @GetMapping
-//    public Collection<Student> getStudentsList() {
-//        return studentService.studentsList();
-//    }
+    @GetMapping("/all")
+    public Collection<Student> getStudentsList() {
+        return studentService.studentsList();
+    }
     @GetMapping
     public Collection<Student> getStudentsWithAgeBetween(@RequestParam int min, @RequestParam int max) {
         return studentService.getStudentsWithAgeBetween(min, max);
