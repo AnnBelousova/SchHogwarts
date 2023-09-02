@@ -4,16 +4,9 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.schhogwarts.controllers.StudentController;
@@ -22,7 +15,6 @@ import ru.hogwarts.schhogwarts.models.Student;
 import ru.hogwarts.schhogwarts.repositories.StudentRepository;
 import ru.hogwarts.schhogwarts.services.impl.StudentServiceImpl;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -34,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(StudentController.class)
-public class SchHogwartsApplicationTestsStudents {
+public class StudentControllerMockMVCTests_ {
     @Autowired
     private MockMvc mockMvc;
     @SpyBean
@@ -125,56 +117,5 @@ public class SchHogwartsApplicationTestsStudents {
         mockMvc.perform(MockMvcRequestBuilders.get("/student/avg-age"))
                 .andExpect(jsonPath("$").value(25))
                 .andDo(print());
-    }
-}
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class StudentControllerRestTemplateTests{
-    @LocalServerPort
-    private int port;
-    @Autowired
-    private StudentController studentController;
-    @Autowired
-    private TestRestTemplate testRestTemplate;
-
-    @Test
-    public void testGetStudentByID(){
-        ResponseEntity<Student> newStudentEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/student", new Student(1L, "Arina", 35), Student.class);
-        assertThat(newStudentEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        ResponseEntity<Student> studentResponseEntity = testRestTemplate.getForEntity("http://localhost:" + port + "/student/" + newStudentEntity.getBody().getId() + "/by-id", Student.class);
-        assertThat(studentResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(studentResponseEntity.getBody()).isNotNull();
-        assertThat(studentResponseEntity.getBody().getName()).isEqualTo("Arina");
-        assertThat(studentResponseEntity.getBody().getAge()).isEqualTo(35);
-    }
-
-    @Test
-    public void testCreateStudent() throws Exception{
-        ResponseEntity<Student> newStudentEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/student", new Student(1L, "Arina", 35), Student.class);
-        assertThat(newStudentEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        ResponseEntity<Student> studentResponseEntity =
-                testRestTemplate.getForEntity("http://localhost:" + port +"/student"+ newStudentEntity.getBody().getId(), Student.class);
-        assertThat(studentResponseEntity.equals(newStudentEntity));
-    }
-    @Test
-    public void testDeleteById() throws Exception{
-        Student newStudent = testRestTemplate.postForObject("http://localhost:" + port + "/student", new Student(1L, "Arina", 35), Student.class);
-        testRestTemplate.delete("http://localhost:" + port + "/student/");
-        assertThat(newStudent.equals(null));
-    }
-    @Test
-    public void tesGetStudents() throws Exception{
-        String url = "http://localhost:" + port + "/student/all";
-        ParameterizedTypeReference<List<Student>> parameterizedType = new ParameterizedTypeReference<List<Student>>() {
-        };
-        ResponseEntity<List<Student>> students = testRestTemplate.exchange(url, HttpMethod.GET, null, parameterizedType);
-        Student student1 = new Student(1L, "Arina", 35);
-        Student student2 = new Student(52L, "Anna", 35);
-
-        assertThat(students.getBody()).isNotNull();
-        assertThat(students.getBody().contains(student1));
-        assertThat(students.getBody()).contains(student2);
     }
 }

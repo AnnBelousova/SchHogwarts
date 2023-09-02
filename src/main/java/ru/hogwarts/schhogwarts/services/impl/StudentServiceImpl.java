@@ -52,5 +52,12 @@ public class StudentServiceImpl implements StudentService {
     public String getFacultyByStudentId(long id) {
         return studentRepository.getFacultyByStudentId(id);
     }
-
+    @Override
+    public Collection<Student>  getStudentsLimitFiveDESC(){
+        return studentRepository.getStudentsLimitFiveDESC();
+    }
+    @Override
+    public Integer getAVGStudentAge(){
+        return studentRepository.getAVGStudentAge();
+    }
 }

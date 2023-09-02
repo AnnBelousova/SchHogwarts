@@ -74,4 +74,13 @@ public class StudentController {
         return studentService.getFacultyByStudentId(id);
     }
 
+    @GetMapping("/avg-age")
+    public Integer getAVGStudentAge(){
+        return studentService.getAVGStudentAge();
+    }
+
+    @GetMapping("/five")
+    public Collection<Student> getStudentsLimitFiveDESC()  {
+        return studentService.getStudentsLimitFiveDESC();
+    }
 }
