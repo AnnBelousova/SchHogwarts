@@ -1,5 +1,7 @@
 package ru.hogwarts.schhogwarts.services.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +19,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 public class AvatarServiceImpl implements AvatarService {
+    Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
     @Value("${path.to.avatars.folder}")
@@ -28,6 +31,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Avatar uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("The uploadAvatar method starts");
         Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarDir , student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -52,6 +56,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public Avatar getAvatarById(Long id) {
+        logger.debug("The getAvatarById method starts");
         return avatarRepository.findById(id).orElseThrow(() -> new RuntimeException("Avatar not found"));
     }
 
