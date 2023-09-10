@@ -8,8 +8,8 @@ import ru.hogwarts.schhogwarts.models.Faculty;
 import ru.hogwarts.schhogwarts.repositories.FacultyRepository;
 import ru.hogwarts.schhogwarts.services.FacultyService;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
@@ -60,5 +60,31 @@ public class FacultyServiceImpl implements FacultyService {
     public Collection<String> getStudentsByFacultyId(long faculty_id) {
         logger.debug("The getStudentsByFacultyId method starts.");
         return facultyRepository.getStudentsByFacultyId(faculty_id);
+    }
+    @Override
+    public String getFacultyNameWithLongerLength() {
+        Map<String, Integer> facultyMap = new HashMap<>();
+        for (Faculty f:facultyRepository.findAll()) {
+            facultyMap.put(f.getName(),f.getName().length());
+        }
+        return  facultyMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .get().getKey().toString();
+    }
+
+    @Override
+    public int returnResult(){
+        long startTime = System.currentTimeMillis();
+                int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                  .parallel()
+                       .reduce(0, (a, b) -> a + b );
+
+        long endTime = System.currentTimeMillis();
+
+        long timeElapsed = endTime - startTime;
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!" + timeElapsed);
+        return sum;
+
     }
 }

@@ -23,4 +23,7 @@ public interface StudentService {
     Collection<Student>  getStudentsLimitFiveDESC();
 
     Integer getAVGStudentAge();
+    String getStudentsStartWithCapitalADESC();
+
+    int getStudentAVGAgeByUsingStream();
 }

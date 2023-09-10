@@ -8,7 +8,9 @@ import ru.hogwarts.schhogwarts.repositories.StudentRepository;
 import ru.hogwarts.schhogwarts.services.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -71,4 +73,23 @@ public class StudentServiceImpl implements StudentService {
         logger.debug("The getAVGStudentAg method starts.");
         return studentRepository.getAVGStudentAge();
     }
+
+    @Override
+    public String getStudentsStartWithCapitalADESC() {
+        List<Student> studentList = studentRepository.findAll();
+        return studentList.stream()
+                .filter(s -> s.getName().startsWith("A"))
+                .map(Student::getName)
+                .collect(Collectors.toList())
+                .toString().toUpperCase();
+    }
+
+    @Override
+    public int getStudentAVGAgeByUsingStream() {
+        List<Student> students = studentRepository.findAll();
+        return (int) students.stream()
+                .mapToInt(a->a.getAge())
+                .average().orElse(0);
+    }
+
 }

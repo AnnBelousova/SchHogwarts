@@ -78,4 +78,12 @@ public class FacultyController {
     public Collection<String> getStudentsByFacultyId(@PathVariable long faculty_id) {
         return facultyService.getStudentsByFacultyId(faculty_id);
     }
+    @GetMapping("/faculty-name-longer")
+    public String getFacultyNameLonger(){
+        return facultyService.getFacultyNameWithLongerLength();
+    }
+    @GetMapping("sum")
+    public int getSum(){
+        return facultyService.returnResult();
+    }
 }

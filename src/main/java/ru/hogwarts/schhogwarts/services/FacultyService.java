@@ -19,4 +19,8 @@ public interface FacultyService {
     Optional<Faculty> getFacultiesByNameOrColor(String name, String color);
 
     Collection<String> getStudentsByFacultyId(long faculty_id);
+
+    String getFacultyNameWithLongerLength();
+
+    int returnResult();
 }
