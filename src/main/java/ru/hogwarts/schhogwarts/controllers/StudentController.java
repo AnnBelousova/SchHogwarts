@@ -93,4 +93,12 @@ public class StudentController {
     public int getStudentAVGAgeByUsingStream(){
         return studentService.getStudentAVGAgeByUsingStream();
     }
+    @GetMapping("get-students-by-order")
+    public void returnStudentsByUsingThreads(){
+        studentService.returnStudentsByUsingThreads();
+    }
+    @GetMapping("get-students-synchron")
+    public void returnStudentsByUsingThreadsSynchronized(){
+        studentService.returnStudentsByUsingThreadsSynchronized();
+    }
 }

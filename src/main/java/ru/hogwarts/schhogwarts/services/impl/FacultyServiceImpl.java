@@ -67,7 +67,7 @@ public class FacultyServiceImpl implements FacultyService {
         for (Faculty f:facultyRepository.findAll()) {
             facultyMap.put(f.getName(),f.getName().length());
         }
-        return  facultyMap.entrySet().stream()
+        return   facultyMap.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .get().getKey().toString();
     }
@@ -85,6 +85,5 @@ public class FacultyServiceImpl implements FacultyService {
         long timeElapsed = endTime - startTime;
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!" + timeElapsed);
         return sum;
-
     }
 }

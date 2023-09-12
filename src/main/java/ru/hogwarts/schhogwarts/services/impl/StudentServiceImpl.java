@@ -91,5 +91,44 @@ public class StudentServiceImpl implements StudentService {
                 .mapToInt(a->a.getAge())
                 .average().orElse(0);
     }
+    @Override()
+    public void returnStudentsByUsingThreads(){
+        printStudent(1);
+        printStudent(2);
+        new Thread(() -> {
+            printStudent(3);
+            printStudent(4);
+        }).start();
+        new Thread(() -> {
+            printStudent(5);
+            printStudent(6);
+        }).start();
+    }
 
+    @Override()
+    public void returnStudentsByUsingThreadsSynchronized(){
+        printStudentSynchr(1);
+        printStudentSynchr(2);
+        new Thread(() -> {
+            printStudentSynchr(3);
+            printStudentSynchr(4);
+        }).start();
+        new Thread(() -> {
+            printStudentSynchr(5);
+            printStudentSynchr(6);
+        }).start();
+    }
+
+
+   private void printStudent(int id){
+        Student student;
+        student = studentRepository.getById((long) id);
+        System.out.println(student.getId() + " " +  student.getName());
+    }
+
+    private synchronized void printStudentSynchr(int id){
+        Student student;
+        student = studentRepository.getById((long) id);
+        System.out.println(student.getId() + " " +  student.getName());
+    }
 }

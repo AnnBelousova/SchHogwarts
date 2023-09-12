@@ -26,4 +26,8 @@ public interface StudentService {
     String getStudentsStartWithCapitalADESC();
 
     int getStudentAVGAgeByUsingStream();
+
+    void returnStudentsByUsingThreads();
+
+    void returnStudentsByUsingThreadsSynchronized();
 }
